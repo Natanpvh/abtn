@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% block title %}AMBT - Associaçao de Moradores do Bairro Vila Tupi{% endblock %}
+{% block main %}
+
+    <section>
+        <div class="container not-box">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-lg-8">
+                        <!-- Noticias -->
+                        <div class="col-sm-12 ">
+                            <header>
+                                <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-newspaper-o"
+                                                                                     aria-hidden="true"></i> Vila NOTÍCIAS</span>
+                                </h3>
+                            </header>
+                            <div class="col-sm-12 box-line-1 box-line-1-1">
+                                <div class="barra-box-line-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    {% for post in noticias %}
+                                        <div class="noticia-box">
+                                            <div class="blockquote-box blockquote-warning clearfix">
+                                                <div class="square pull-left">
+                                                    <p class="date-1">{{ post.criado|date:"d" }}</p>
+                                                    <p class="date-2">{{ post.criado|date:"M Y" }}</p>
+                                                </div>
+                                                <h5>
+                                                    <a href="#">{{ post.categoria }}</a>
+                                                </h5>
+                                                <p>
+                                                    <a href="{% url 'associacao:noticia' post.slug %}">{{ post.titulo }} </a>
+                                                </p>
+
+                                            </div>
+                                            <hr>
+
+                                        </div>
+                                    {% endfor %}
+
+                                    {% if noticias.has_other_pages %}
+                                        <ul class="pagination">
+                                            {% if noticias.has_previous %}
+                                                <li><a href="?page={{ noticias.previous_page_number }}">&laquo;</a></li>
+                                            {% else %}
+                                                <li class="disabled"><span>&laquo;</span></li>
+                                            {% endif %}
+                                            {% for i in noticias.paginator.page_range %}
+                                                {% if noticias.number == i %}
+                                                    <li class="active"><span>{{ i }} <span
+                                                            class="sr-only">(current)</span></span></li>
+                                                {% else %}
+                                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if noticias.has_next %}
+                                                <li><a href="?page={{ noticias.next_page_number }}">&raquo;</a></li>
+                                            {% else %}
+                                                <li class="disabled"><span>&raquo;</span></li>
+                                            {% endif %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!--Sidebar ---------------------------------------------------------------- -->
+
+                    <aside class="col-lg-4">
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-cogs"
+                                                                                 aria-hidden="true"></i>
+ PROJETOS</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        <div class="alert alert-success">
+                            <div class="panel-body">
+
+                                {% for projeto in projetos %}
+                                    <a href="#" class="alink-projeto">
+                                        <div class="row">
+                                            {% for imgprogeto in projeto.images.all %}
+                                                <div class="col-sm-5 box-m-1">
+                                                    <div class="thumbnail img-box">
+                                                        <img src="{{ imgprogeto.imagem.url }}">
+                                                    </div>
+                                                    <div class="row ico-data">
+                                                        <div class="col-sm-2"><i
+                                                                class="glyphicon glyphicon-calendar"></i></div>
+                                                        <div class="col-sm-8">{{ projeto.criado|date:"d / m / Y" }}</div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                            <div class="col-sm-7 box-m-1 box-m-2">
+                                                {{ projeto.titulo }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                {% endfor %}
+                                <a href="#" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Projetos</a>
+
+                            </div>
+                        </div>
+
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-youtube"
+                                                                                 aria-hidden="true"></i>
+ TV da VILA</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <!-- 16:9 aspect ratio -->
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    {% for video in video_destaque %}
+
+
+                                        <iframe class="embed-responsive-item"
+                                                src="{{ video.url_video }}"></iframe>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <a href="#" class="btn btn-default">OUTROS VÍDEOS</a>
+                            </div>
+                        </div>
+
+                        <!--Facebook -->
+
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-facebook-square"
+                                                                                 aria-hidden="true"></i>
+
+ Facebook</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <!-- 16:9 aspect ratio -->
+                                <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAssocia%25C3%25A7%25C3%25A3o-Dos-Moradores-Do-Bairro-Vila-Tupy-206036552850437%2F&tabs=timeline&width=340&height=300&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId=193240910792257"
+                                        width="340" height="300" style="border:none;overflow:hidden" scrolling="no"
+                                        frameborder="0" allowTransparency="true"></iframe>
+                            </div>
+                        </div>
+
+
+                        <!--Menu de acesso Rapido -->
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-link"
+                                                                                 aria-hidden="true"></i>
+ Acessos ÚTEIS</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        {% if links %}
+
+                            <div class="list-group">
+                                {% for link in links %}
+
+                                    <a href="{{ link.url_link }}" class="list-group-item" data-toggle="tooltip"
+                                       data-placement="top"
+                                       title="{{ link.titulo_link }}" target="_blank">{{ link.titulo_link }}</a>
+                                {% endfor %}
+
+                            </div>
+                        {% endif %}
+                    </aside>
+                    <!--/Facebook -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

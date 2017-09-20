@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% block title %}AMBT - Associaçao de Moradores do Bairro Vila Tupi{% endblock %}
+{% block main %}
+    <section>
+        <div class="jumbotron text-center">
+            <!--Slide -->
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    {% for slides in slide %}
+                        <li data-target="#myCarousel {{ slides.id }}" data-slide-to="{{ forloop.counter0 }}"></li>
+                    {% endfor %}
+
+
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    {% for slides2 in slide %}
+
+                        <div class="item">
+                            <a href="{{ slides2.url_slide }}">
+                                {% load thumbnail %}
+                                <img src="{% thumbnail slides2.image 2000x700 box=yourmodel.cropping crop detail %}"
+                                     alt=""/>
+
+                                <div class="carousel-caption">
+                                    <h3 class="slide-title">{{ slides2.titulo_slide }}</h3>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <!--/ Slide -->
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-lg-8">
+
+                        <!-- Demanda -->
+                        <div class="col-sm-12 ">
+                            <header>
+                                <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-file-text-o"
+                                                                                     aria-hidden="true"></i> Ultima DEMANDA</span>
+                                </h3>
+                            </header>
+                            <div class="col-sm-12 box-line-1 box-line-1-1">
+                                <div class="barra-box-line-1"></div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                    {% for demanda in demandas %}
+
+                                        {% for postimage in demanda.images.all %}
+                                            <a href="#">
+                                                <div class="thumbnail">
+                                                    <img src=" {{ postimage.imagem.url }} ">
+                                                    <span class="autor">Autor: Natanael</span>
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+
+                                        <div class="col-lg-12">
+
+                                            <div class="row box-prev-demanda">
+
+                                                <h3> {{ demanda.titulo }}</h3>
+                                                <a href="#">
+                                                    <p>
+                                                        {{ demanda.texto|safe|slice:"0:350" }}
+                                                    </p>
+                                                </a>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                    <a href="" class="btn btn-default">VEJA OUTRAS DEMANDAS</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- / Demanda -->
+                        <!-- Video destaque -->
+                        <div class="col-sm-12 ">
+                            <header>
+                                <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-newspaper-o"
+                                                                                     aria-hidden="true"></i> Vila NOTÍCIAS</span>
+                                </h3>
+                            </header>
+                            <div class="col-sm-12 box-line-1 box-line-1-1">
+                                <div class="barra-box-line-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    {% for post in posts %}
+                                        <div class="noticia-box">
+                                            <div class="blockquote-box blockquote-warning clearfix">
+                                                <div class="square pull-left">
+                                                    <p class="date-1">{{ post.criado|date:"d" }}</p>
+                                                    <p class="date-2">{{ post.criado|date:"M Y" }}</p>
+                                                </div>
+                                                <h5>
+                                                    <a href="#">{{ post.categoria }}</a>
+                                                </h5>
+                                                <p>
+                                                    <a href="{% url 'associacao:noticia' post.slug %}">{{ post.titulo }} </a>
+                                                </p>
+
+                                            </div>
+                                            <hr>
+
+                                        </div>
+                                    {% endfor %}
+
+                                    <a href="{% url 'associacao:noticias' %}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Notícias</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!--Sidebar ---------------------------------------------------------------- -->
+
+                    <div class="col-lg-4">
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-cogs"
+                                                                                 aria-hidden="true"></i>
+ PROJETOS</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        <div class="alert alert-success">
+                            <div class="panel-body">
+
+                                {% for projeto in projetos %}
+                                    <a href="#" class="alink-projeto">
+                                        <div class="row">
+                                            {% for imgprogeto in projeto.images.all %}
+                                                <div class="col-sm-5 box-m-1">
+                                                    <div class="thumbnail img-box">
+                                                        <img src="{{ imgprogeto.imagem.url }}">
+                                                    </div>
+                                                    <div class="row ico-data">
+                                                        <div class="col-sm-2"> <i class="glyphicon glyphicon-calendar"></i></div>
+                                                        <div class="col-sm-8">{{ projeto.criado|date:"d / m / Y" }}</div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                            <div class="col-sm-7 box-m-1 box-m-2">
+                                                {{ projeto.titulo }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr>
+                                {% endfor %}
+                                <a href="#" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Projetos</a>
+
+                            </div>
+                        </div>
+
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-youtube"
+                                                                                 aria-hidden="true"></i>
+ TV da VILA</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <!-- 16:9 aspect ratio -->
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    {% for video in video_destaque %}
+
+
+                                        <iframe class="embed-responsive-item"
+                                                src="{{ video.url_video }}"></iframe>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <a href="#" class="btn btn-default">OUTROS VÍDEOS</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!--Facebook -->
+                    <div class="col-lg-4">
+
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-facebook-square"
+                                                                                 aria-hidden="true"></i>
+
+ Facebook</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        <div class="panel panel-default">
+  <div class="panel-body">
+                            <!-- 16:9 aspect ratio -->
+                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAssocia%25C3%25A7%25C3%25A3o-Dos-Moradores-Do-Bairro-Vila-Tupy-206036552850437%2F&tabs=timeline&width=340&height=300&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId=193240910792257"
+                                    width="340" height="300" style="border:none;overflow:hidden" scrolling="no"
+                                    frameborder="0" allowTransparency="true"></iframe>
+                        </div>
+                        </div>
+
+
+                        <!--Menu de acesso Rapido -->
+                        <header>
+                            <h3 class="h3-destaque-1"><span class="h3-span-1"><i class="fa fa-link"
+                                                                                 aria-hidden="true"></i>
+ Acessos ÚTEIS</span></h3>
+                        </header>
+                        <div class="col-sm-12 box-line-1">
+                            <div class="barra-box-line-1"></div>
+                        </div>
+                        <br>
+                        {% if links %}
+
+                            <div class="list-group">
+                                {% for link in links %}
+
+                                    <a href="{{ link.url_link }}" class="list-group-item" data-toggle="tooltip"
+                                       data-placement="top"
+                                       title="{{ link.titulo_link }}" target="_blank">{{ link.titulo_link }}</a>
+                                {% endfor %}
+
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!--/Facebook -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
